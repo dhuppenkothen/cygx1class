@@ -1,0 +1,12 @@
+#
+# git ignore file for TeX files
+#
+*~
+*.aux
+*.log
+*.bbl
+*.blg
+*.bak
+*.pdf
+*.fits
+*.fig
