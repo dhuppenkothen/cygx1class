@@ -1,0 +1,158 @@
+%\documentclass[referee]{aa}
+\documentclass{aa}
+\pdfoutput=1
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{txfonts}
+
+\bibpunct{(}{)}{;}{a}{}{,} % to follow the A&A style
+
+\usepackage{color}
+\newcommand{\redtext}[1]{{\color{red} #1}}
+
+\graphicspath{{./figs/}}
+
+\begin{document}
+
+\title{Machine Learning \& state definitions in Cyg X-1} 
+\subtitle{XXX}
+
+\titlerunning{XXX}
+
+\author{\mbox{D.~Huppenkothen\inst{\ref{affil:nyu}}} \and
+\mbox{V.~Grinberg\inst{\ref{affil:mit}}}
+} 
+\offprints{V.~Grinberg,\\ e-mail: {grinberg@space.mit.edu}}
+\institute{ 
+NYU\label{affil:nyu}
+\and
+Massachusetts Institute of Technology, Kavli Institute for
+  Astrophysics and Space Research, Cambridge, MA 02139, USA
+ \label{affil:mit}
+}
+\date {Received: --- / Accepted: ---}
+
+\abstract{add something}
+
+\keywords{stars: individual: Cyg~X-1 -- X-rays:
+  binaries -- binaries: close}
+
+\maketitle
+
+\section{Intro}
+
+States in black hole binaries: the idea. Connection to geometry. But
+also note that the states are (mostly) a continuum.
+
+A lot of open questions: Unclear origin of power law component (jet
+vs. comptonization). Unclear origin of the lag.
+
+Mention Belloni's thesis that the timing data are actually the
+clearest markers of state transitions? Does the jet-line coincide with
+changes in timing behavior? (Re-read Fender+ 2009)
+
+
+
+Why machine learning method make so much sense. More unbiased then
+humans. Can select what is actually more important without involving
+wishful thinking (and egos).
+
+XXX Stuff on machine learning XXX
+
+Let's use machine learning. See what it tells us about what is
+important. Let's compare it to the human made predictions and see
+whether the different states can be recovered at all, i.e., whether
+they exist.
+
+Why Cyg is ideal for this kind of studies: bright, persistent = enough
+observations, well understood behavior.
+
+Cyg X-1 also a special case: HMXB, persistent, no hysterisis visible,
+at least no clear q-track. Soft state with a hard tail, a lot of
+variability in the hard tail. But similar in other regards, e.g. lag
+(REF altamirano new paper?). Also, hints of two hard states (KP 2003?
+Somewhere else?) XXX Be nice here and cite a lot of other people who
+have worked with the data not to be biased: Shaposhnikov, Ibragimov,
+Axelssson XXX
+
+\section{Data \& Methods}
+
+\subsection{Quick overview over RXTE data}
+
+We use data from a bi-weekly observational campaign of Cyg X-1 with
+RXTE performed between 1999 and 2011. We use Proportional Counter
+Array \citep[PCA;][]{Jahoda_2006a} data.  Detailed description of data
+selection and description of the calculation methods to obtain the
+timing data are given in \citep{Grinberg_2014a}. All data reduction
+performed with HEASOFT 6.11. All timing value calculations including
+the deadtime corrections were done following the \citet{Nowak_1999a}
+and \citet{Pottschmidt_2003b} using ISIS~1.6.2
+\citep{Houck_Denicola_2000a,Houck_2002,Noble_Nowak_2008a}.
+
+Give a short overview of what can be done with
+the data given the limited data modes at all.
+
+\begin{table}
+\begin{tabular}{l|cc}
+band &energy [keV]& PCA \texttt{std2}
+  channels\\
+\hline
+band 1 &$\sim$2.1--4.5\,keV& 0--10 \\
+band 2 &$\sim$4.5--5.7\,keV& 11--13 \\
+band 3 & $\sim$5.7--9.4\,keV& 14--12 \\
+band 4 &$\sim$9.4--15\,keV& 23--35 \\
+\end{tabular}
+\end{table}
+
+
+We first go for a set of data that are as model-independent as
+possible and that means that it's mainly timing data. In particular we
+use:
+
+\begin{itemize}
+\item the average total countrate in 2.1--15\,keV (PCA \texttt{std2}
+  channel 0--35) which can be seen as a proxy for the source
+  intensity.
+\item the average total countrates in $\sim$2.1--4.5\,keV (channels 0--10),
+  $\sim$4.5--5.7\,keV (channels 11--13), $\sim$5.7--9.4\,keV (channels
+  14--22), and $\sim$9.4--15\,keV (channels 23--35) energy bands.
+\item fractional rms in the 0.125-–256\,Hz range calculated in
+  $\sim$2.1--4.5\,keV (channels 0--10),
+  $\sim$4.5--5.7\,keV (channels 11--13), $\sim$5.7--9.4\,keV (channels
+  14--22), and $\sim$9.4--15\,keV (channels 23--35) energy bands.
+\end{itemize}
+
+\subsection{Quick overview over machine learning methods used}
+
+\section{What we did \& Results without yet interpreting them}
+
+What does machine learning actually tell us about states.
+
+\section{Discussion}
+
+\begin{itemize}
+
+\item Which parameters do actually drive the machine defined state
+  definitions?
+
+\item So how does the battle man vs. machine fare?
+
+\item Tie it back to physics?
+
+\end{itemize}
+
+\section{Conclusions}
+
+\begin{acknowledgements}
+  Support for this work was provided by NASA through the Smithsonian
+  Astrophysical Observatory (SAO) contract SV3-73016 to MIT for
+  Support of the Chandra X-Ray Center (CXC) and Science Instruments;
+  CXC is operated by SAO for and on behalf of NASA under contract
+  NAS8-03060.
+\end{acknowledgements}
+
+\bibliographystyle{aa} 
+\bibliography{mnemonic,aa_abbrv,references}
+
+\end{document}
