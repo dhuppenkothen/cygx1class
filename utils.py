@@ -8,6 +8,7 @@ plt.rc("axes", titlesize=20, labelsize=20)
 plt.rc("text", usetex=True)
 import matplotlib.cm as cmap
 
+
 import numpy as np
 import generaltools as gtb
 ## utilities for the analysis
@@ -17,7 +18,49 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn import linear_model
 from sklearn.metrics import confusion_matrix
 
+import generaltools as gt
 
+#### LOADING IN THE FILE WITH BASIC DATA
+def load_data(filename):
+
+    ## first row is strings, put that separately
+    data1= gt.conversion("data_for_ml.txt")
+    blockname = data1[0]
+    ## load in all other columns as a numpy.array
+    data = np.loadtxt("data_for_ml.txt", usecols=range(1,len(data1.keys()),1))
+
+    gammas = data[:,0]
+    tstart = data[:,1]
+    tend = data[:,2]
+
+    rms_features = np.atleast_2d(data[:,3:7]).T
+
+    pc1 = np.atleast_2d(data[:,8]/data[:,7])
+
+    timelag = np.atleast_2d(data[:,9])
+    coherence = np.atleast_2d(data[:,10])
+    intensity = np.atleast_2d(np.sum(data[:,11:], axis=1))
+
+    hr1 = np.atleast_2d(data[:,14]/data[:,11])
+    hr2 = np.atleast_2d(data[:,13]/data[:,11])
+    hr3 = np.atleast_2d(data[:,14]/data[:,12])
+    hr4 = np.atleast_2d(data[:,14]/data[:,12])
+
+    countrate_features = np.atleast_2d(data[:,11:]).T
+    pc_components = np.atleast_2d(data[:,7:9]).T
+
+    features = np.concatenate((rms_features, pc1, timelag, coherence, intensity, hr1, hr2, hr3, hr4, countrate_features, pc_components)).T
+
+    states = np.zeros(len(gammas))
+    hard = np.where(gammas <= 2.0)[0]
+    intermediate = np.where((gammas>2.0) & (gammas<2.5))[0]
+    soft = np.where(gammas >= 2.5)[0]
+
+    states[hard] = 1.0
+    states[intermediate] = 2.0
+    states[soft] = 3.0
+
+    return features, states, gammas, tstart, tend
 
 #### RUNNING THE ENTIRE SUPERVISED CLASSIFICATIOn
 
