@@ -42,6 +42,32 @@ Massachusetts Institute of Technology, Kavli Institute for
 
 \section{Intro}
 
+Black hole binaries (BHBs) show distinct emission regimes, or
+``states'' in the X-rays that are connected to different behavior in
+other bands and thought to correspond to different configarations of
+accretion and ejection flows such as accretion disk, jets, accretion
+disk corona, and disk winds. 
+
+
+The states have originally been defined based on spectral features:
+in the hard state, the X-ray spectrum above $\sim$2\,keV is dominated
+by power law emission where the photon spectrum is proportional to
+$E^{-\Gamma}$ with a photon index $\Gamma \sim 1.7$. In the
+soft state thermal emission from the accretion disk is prominent and
+the contribution from a steeper power law lower
+\citep[e.g.,][]{McClintock_Remillard_2006a_book}.  The extremes are
+connected by intermediate states \citep{Fender_2009a,Belloni_2010a}.
+
+Further features emerged: radio. Timing.
+
+The empirical evolution of a BHB is usually presented in terms of
+hardness-intensity diagrams (HIDs). Transients BHBs in outburst trace
+a \textsf{q}-shaped track \citep{Homan_2005a,Fender_2004a}; the tracks of persistent sources can be less
+clear. Neutron stars, CVs, and AGNs track similar patterns, so that
+understanding states is paramount to understanding the complex
+accretion-ejection interplay in all kinds of objects.
+
+
 States in black hole binaries: the idea. Connection to geometry. But
 also note that the states are (mostly) a continuum.
 
@@ -80,21 +106,30 @@ Axelssson XXX
 
 \subsection{Quick overview over RXTE data}
 
-We use data from a bi-weekly observational campaign of Cyg X-1 with
-RXTE performed between 1999 and 2011. We use Proportional Counter
-Array \citep[PCA;][]{Jahoda_2006a} data.  Detailed description of data
-selection and description of the calculation methods to obtain the
-timing data are given in \citep{Grinberg_2014a}. All data reduction
-performed with HEASOFT 6.11. All timing value calculations including
-the deadtime corrections were done following the \citet{Nowak_1999a}
-and \citet{Pottschmidt_2003b} using ISIS~1.6.2
+We use data of Cyg X-1 taken after MJD~51259, i.e., starting when
+calibration epoch~4, with the Proportional Counter Array
+\citep[PCA;][]{Jahoda_2006a} onboard Rossi X-ray Timing Explorer
+(RXTE). The transition between calibration epoch~3 and~4 is marked by
+an abrupt change in channel energies \citep[see e.g.][]{Garcia_2014a}
+so that we would not be able to use consistent channel energies for
+the calculation of timing parameters across epoch boundaries since the
+observations are taken in binned mode. We found out that this matters
+for our data visually inspecting them with a
+t-SNE\citep{van_der_Maaten_2008a} implementation in XXX details XXX.
+
+Detailed description of data selection and description of the
+calculation methods to obtain the timing data are given in
+\citep{Grinberg_2014a}. All data reduction performed with HEASOFT
+6.11. All timing value calculations including the deadtime corrections
+were done following the \citet{Nowak_1999a} and
+\citet{Pottschmidt_2003b} using ISIS~1.6.2
 \citep{Houck_Denicola_2000a,Houck_2002,Noble_Nowak_2008a}.
 
-Give a short overview of what can be done with
-the data given the limited data modes at all.
-
 \begin{table}
-\begin{tabular}{l|cc}
+\caption{Energy bands, their energies and PCA \texttt{std2}
+  channel boundaries used in this work.}\label{tab:channels}
+\begin{tabular}{lcc}
+\hline\hline
 band &energy [keV]& PCA \texttt{std2}
   channels\\
 \hline
@@ -102,25 +137,37 @@ band 1 &$\sim$2.1--4.5\,keV& 0--10 \\
 band 2 &$\sim$4.5--5.7\,keV& 11--13 \\
 band 3 & $\sim$5.7--9.4\,keV& 14--12 \\
 band 4 &$\sim$9.4--15\,keV& 23--35 \\
+total band & $\sim$2.1--15\,keV & 0--35 \\
+\hline
 \end{tabular}
 \end{table}
 
 
 We first go for a set of data that are as model-independent as
 possible and that means that it's mainly timing data. In particular we
-use:
+use (see Table~\ref{tab:channels} for the energy band definitions):
 
 \begin{itemize}
-\item the average total countrate in 2.1--15\,keV (PCA \texttt{std2}
-  channel 0--35) which can be seen as a proxy for the source
-  intensity.
-\item the average total countrates in $\sim$2.1--4.5\,keV (channels 0--10),
-  $\sim$4.5--5.7\,keV (channels 11--13), $\sim$5.7--9.4\,keV (channels
-  14--22), and $\sim$9.4--15\,keV (channels 23--35) energy bands.
+\item the average countrate in the total energy band which can be seen
+  as a proxy for the source intensity.
+\item the average countrates in bands 1, 2, 3, and 4.
 \item fractional rms in the 0.125-–256\,Hz range calculated in
-  $\sim$2.1--4.5\,keV (channels 0--10),
-  $\sim$4.5--5.7\,keV (channels 11--13), $\sim$5.7--9.4\,keV (channels
-  14--22), and $\sim$9.4--15\,keV (channels 23--35) energy bands.
+  band 1, 2, 3, and 4.
+\item fractional rms in energy band 1 calculates in the frequency
+  ranges 0.25--2.0\,Hz and 2.0--16\,Hz bands (this corresponds to two
+  of the frequency ranges used by \citet{Heil_2015a}, we cannot use
+  their other two frequency ranges because we calculate our PSDs and
+  the higher order statistics of lags and coherence on shorter
+  segments, especially to be able to do the higher order
+  statistics). 16\,Hz is also below the buffer overflow problems we
+  get for the bright observations (REF).
+\item the average timelag between band 4 and band 1 in the 3.2--10\,Hz
+  range which is the typical value for the timelag used in the
+  literature that is known to show changes of behavior with
+  states. Because of the overall $\sim f^{-0.7}$ shape of the timelage
+  we have to calculate the lag in a rather thin frequency range.
+\item the average value of the coherence function between band 4 and
+  band 1 in the 0.125--5.0\,Hz range.
 \end{itemize}
 
 \subsection{Quick overview over machine learning methods used}
@@ -136,13 +183,23 @@ What does machine learning actually tell us about states.
 \item Which parameters do actually drive the machine defined state
   definitions?
 
-\item So how does the battle man vs. machine fare?
+\item So how does the battle man vs. machine fare? Is machine better
+  at recognizing states?
+
+\item do we actually see three states or just two of them?
+
+\item is the hard state really one state or are there two distinct
+  behavior pattern?
 
 \item Tie it back to physics?
 
 \end{itemize}
 
 \section{Conclusions}
+
+This is why we need more machine learning approaches.
+
+This is what new stuff we learned about the source.
 
 \begin{acknowledgements}
   Support for this work was provided by NASA through the Smithsonian
